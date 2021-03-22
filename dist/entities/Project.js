@@ -22,7 +22,7 @@ __decorate([
     type_graphql_1.Field(() => type_graphql_1.Int),
     core_1.PrimaryKey(),
     __metadata("design:type", Number)
-], Project.prototype, "_id", void 0);
+], Project.prototype, "id", void 0);
 __decorate([
     type_graphql_1.Field(() => String),
     core_1.Property({ type: 'date' }),
@@ -38,6 +38,11 @@ __decorate([
     core_1.Property({ type: 'text' }),
     __metadata("design:type", String)
 ], Project.prototype, "title", void 0);
+__decorate([
+    type_graphql_1.Field(),
+    core_1.Property({ type: 'text' }),
+    __metadata("design:type", String)
+], Project.prototype, "text", void 0);
 Project = __decorate([
     type_graphql_1.ObjectType(),
     core_1.Entity()

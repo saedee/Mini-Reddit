@@ -6,7 +6,7 @@ import { Field, Int, ObjectType } from "type-graphql";
 export class Project {
   @Field(() => Int)
   @PrimaryKey()
-  _id!: number;
+  id!: number;
 
   @Field(() => String)
   @Property({type: 'date'})
@@ -19,4 +19,8 @@ export class Project {
   @Field()
   @Property({type: 'text'})
   title!: string;
+
+  @Field()
+  @Property({type: 'text'})
+  text!: string;
 }
