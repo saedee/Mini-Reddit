@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { MikroORM } from "@mikro-orm/core";
 import { __prod__ } from "./constants";
 import microConfig from './mikro-orm.config'
@@ -16,7 +17,8 @@ const main = async () => {
         schema: await buildSchema({
             resolvers: [ProjectResolver],
             validate: false
-        })
+        }),
+        context: () => ({ em: orm.em })
     });
     apolloServer.applyMiddleware({app});
 
@@ -28,3 +30,4 @@ const main = async () => {
 main().catch((err) => {
     console.log(err)
 });
+
