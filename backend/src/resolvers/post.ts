@@ -1,4 +1,4 @@
-import { Project } from "../entities/Project";
+import { Post } from "../entities/Post";
 import { Arg, Ctx, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
 import { MyContext } from "../types"
 
@@ -11,48 +11,48 @@ class ProjectInput {
 }
 
 @Resolver()
-export class ProjectResolver {
-    @Query(() => [Project])
+export class PostResolver {
+    @Query(() => [Post])
     projects(@Ctx() { em }: MyContext
-    ): Promise<Project[]> {
-        return em.find(Project, {});
+    ): Promise<Post[]> {
+        return em.find(Post, {});
     }
 
-    @Query(() => Project)
-    project(
+    @Query(() => Post)
+    post(
         @Arg('id', () => Int) id: number,
         @Ctx() { em }: MyContext
-    ): Promise<Project | null > {
-        return em.findOne(Project, { id });
+    ): Promise<Post | null > {
+        return em.findOne(Post, { id });
     }
 
-    @Mutation(() => Project)
+    @Mutation(() => Post)
     async addProject(
         @Arg('options') options: ProjectInput,
         @Ctx() { em }: MyContext
-    ): Promise<Project | null> {
-        const project = em.create(Project, {
+    ): Promise<Post | null> {
+        const post = em.create(Post, {
             title: options.title, 
             text: options.text
         });
-        await em.persistAndFlush(project);
-        return project;
+        await em.persistAndFlush(post);
+        return post;
     }
 
-    @Mutation(() => Project, {nullable: true})
+    @Mutation(() => Post, {nullable: true})
     async updateProject(
         @Arg('id', () => Int) id: number,
         @Arg('options') options: ProjectInput,
         @Ctx() { em }: MyContext
-    ): Promise<Project | null> {
-        const project = await em.findOne(Project, {id});
-        if (!project) {
+    ): Promise<Post | null> {
+        const post = await em.findOne(Post, {id});
+        if (!post) {
             return null;
         }
-        project.title = options.title;
-        project.text = options.text;
-        await em.persistAndFlush(project);
-        return project;
+        post.title = options.title;
+        post.text = options.text;
+        await em.persistAndFlush(post);
+        return post;
     }
 
     @Mutation(() => Boolean)
@@ -60,7 +60,7 @@ export class ProjectResolver {
         @Arg('id', () => Int) id: number,
         @Ctx() { em }: MyContext
     ): Promise<boolean> {
-        em.nativeDelete(Project, {id});
+        em.nativeDelete(Post, {id});
         return true
     }
 }

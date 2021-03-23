@@ -1,5 +1,5 @@
 import { __prod__ } from "./constants";
-import { Project } from "./entities/Project";
+import { Post } from "./entities/Post";
 import { MikroORM } from '@mikro-orm/core';
 import path from 'path';
 
@@ -8,7 +8,7 @@ export default {
         path: path.join(__dirname, './migrations'), 
         pattern: /^[\w-]+\d+\.[tj]s$/,
     },
-    entities: [Project],
+    entities: [Post],
     dbName: 'react',
     type: 'postgresql',
     debug: !__prod__
