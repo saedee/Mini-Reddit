@@ -13,7 +13,7 @@ class ProjectInput {
 @Resolver()
 export class PostResolver {
     @Query(() => [Post])
-    projects(@Ctx() { em }: MyContext
+    posts(@Ctx() { em }: MyContext
     ): Promise<Post[]> {
         return em.find(Post, {});
     }
