@@ -87,38 +87,52 @@ let UserResolver = class UserResolver {
         return __awaiter(this, void 0, void 0, function* () {
             if (options.username.length <= 2) {
                 return {
-                    errors: [{
+                    errors: [
+                        {
                             field: "username",
-                            message: "length must be greater than 2"
-                        }]
+                            message: "length must be greater than 2",
+                        },
+                    ],
                 };
             }
             if (options.password.length <= 2) {
                 return {
-                    errors: [{
+                    errors: [
+                        {
                             field: "password",
-                            message: "length must be greater than 2"
-                        }]
+                            message: "length must be greater than 2",
+                        },
+                    ],
                 };
             }
             const hashedPassword = yield argon2_1.default.hash(options.password);
-            const user = em.create(User_1.User, {
-                username: options.username,
-                password: hashedPassword
-            });
+            let user;
             try {
-                yield em.persistAndFlush(user);
+                const result = yield em
+                    .createQueryBuilder(User_1.User)
+                    .getKnexQuery()
+                    .insert({
+                    username: options.username,
+                    password: hashedPassword,
+                    created_at: new Date(),
+                    updated_at: new Date(),
+                })
+                    .returning("*");
+                user = result[0];
+                console.log(user);
             }
             catch (err) {
-                if (err.code == '23505') {
+                if (err.code == "23505") {
                     return {
-                        errors: [{
-                                field: 'username',
-                                message: 'username already taken'
-                            }]
+                        errors: [
+                            {
+                                field: "username",
+                                message: "username already taken",
+                            },
+                        ],
                     };
                 }
-                console.log('message: ', err.message);
+                console.log("message: ", err.message);
             }
             req.session.userId = user.id;
             return { user };
@@ -129,19 +143,23 @@ let UserResolver = class UserResolver {
             const user = yield em.findOne(User_1.User, { username: options.username });
             if (!user) {
                 return {
-                    errors: [{
-                            field: 'username',
-                            message: 'username does not exist'
-                        }]
+                    errors: [
+                        {
+                            field: "username",
+                            message: "username does not exist",
+                        },
+                    ],
                 };
             }
             const valid = yield argon2_1.default.verify(user.password, options.password);
             if (!valid) {
                 return {
-                    errors: [{
-                            field: 'password',
-                            message: 'incorrect password'
-                        }]
+                    errors: [
+                        {
+                            field: "password",
+                            message: "incorrect password",
+                        },
+                    ],
                 };
             }
             req.session.userId = user.id;
@@ -166,8 +184,7 @@ __decorate([
 ], UserResolver.prototype, "users", null);
 __decorate([
     type_graphql_1.Query(() => User_1.User),
-    __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
-    __param(1, type_graphql_1.Ctx()),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)), __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
@@ -181,7 +198,7 @@ __decorate([
 ], UserResolver.prototype, "me", null);
 __decorate([
     type_graphql_1.Mutation(() => UserResponse),
-    __param(0, type_graphql_1.Arg('options')),
+    __param(0, type_graphql_1.Arg("options")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [UsernamePasswordInput, Object]),
@@ -189,7 +206,7 @@ __decorate([
 ], UserResolver.prototype, "register", null);
 __decorate([
     type_graphql_1.Mutation(() => UserResponse),
-    __param(0, type_graphql_1.Arg('options')),
+    __param(0, type_graphql_1.Arg("options")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [UsernamePasswordInput, Object]),
@@ -197,7 +214,7 @@ __decorate([
 ], UserResolver.prototype, "login", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
-    __param(0, type_graphql_1.Arg('options')),
+    __param(0, type_graphql_1.Arg("options")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [UsernamePasswordInput, Object]),
