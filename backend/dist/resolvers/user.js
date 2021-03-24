@@ -28,6 +28,7 @@ exports.UserResolver = void 0;
 const type_graphql_1 = require("type-graphql");
 const User_1 = require("../entities/User");
 const argon2_1 = __importDefault(require("argon2"));
+const constants_1 = require("../constants");
 let UsernamePasswordInput = class UsernamePasswordInput {
 };
 __decorate([
@@ -177,7 +178,7 @@ let UserResolver = class UserResolver {
     logout({ req, res }) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve) => req.session.destroy((err) => {
-                res.clearCookie("qid");
+                res.clearCookie(constants_1.COOKIE_NAME);
                 if (err) {
                     console.log(err);
                     resolve(false);

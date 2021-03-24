@@ -13,6 +13,7 @@ import { MyContext } from "../types";
 import { User } from "../entities/User";
 import argon2 from "argon2";
 import { EntityManager } from "@mikro-orm/postgresql";
+import { COOKIE_NAME } from "../constants";
 
 @InputType()
 class UsernamePasswordInput {
@@ -173,7 +174,7 @@ export class UserResolver {
   async logout(@Ctx() { req, res }: MyContext): Promise<boolean> {
     return new Promise((resolve) =>
       req.session.destroy((err: any) => {
-        res.clearCookie("qid");
+        res.clearCookie(COOKIE_NAME);
         if (err) {
           console.log(err);
           resolve(false);
