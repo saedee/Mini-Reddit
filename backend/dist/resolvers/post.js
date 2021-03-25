@@ -44,17 +44,17 @@ let PostResolver = class PostResolver {
     post(id, { em }) {
         return em.findOne(Post_1.Post, { id });
     }
-    addProject(options, { em }) {
+    addPost(options, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = em.create(Post_1.Post, {
                 title: options.title,
-                text: options.text
+                text: options.text,
             });
             yield em.persistAndFlush(post);
             return post;
         });
     }
-    updateProject(id, options, { em }) {
+    updatePost(id, options, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
             const post = yield em.findOne(Post_1.Post, { id });
             if (!post) {
@@ -66,7 +66,7 @@ let PostResolver = class PostResolver {
             return post;
         });
     }
-    deleteProject(id, { em }) {
+    deletePost(id, { em }) {
         return __awaiter(this, void 0, void 0, function* () {
             em.nativeDelete(Post_1.Post, { id });
             return true;
@@ -82,37 +82,35 @@ __decorate([
 ], PostResolver.prototype, "posts", null);
 __decorate([
     type_graphql_1.Query(() => Post_1.Post),
-    __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
-    __param(1, type_graphql_1.Ctx()),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)), __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "post", null);
 __decorate([
     type_graphql_1.Mutation(() => Post_1.Post),
-    __param(0, type_graphql_1.Arg('options')),
+    __param(0, type_graphql_1.Arg("options")),
     __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [ProjectInput, Object]),
     __metadata("design:returntype", Promise)
-], PostResolver.prototype, "addProject", null);
+], PostResolver.prototype, "addPost", null);
 __decorate([
     type_graphql_1.Mutation(() => Post_1.Post, { nullable: true }),
-    __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
-    __param(1, type_graphql_1.Arg('options')),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)),
+    __param(1, type_graphql_1.Arg("options")),
     __param(2, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, ProjectInput, Object]),
     __metadata("design:returntype", Promise)
-], PostResolver.prototype, "updateProject", null);
+], PostResolver.prototype, "updatePost", null);
 __decorate([
     type_graphql_1.Mutation(() => Boolean),
-    __param(0, type_graphql_1.Arg('id', () => type_graphql_1.Int)),
-    __param(1, type_graphql_1.Ctx()),
+    __param(0, type_graphql_1.Arg("id", () => type_graphql_1.Int)), __param(1, type_graphql_1.Ctx()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", Promise)
-], PostResolver.prototype, "deleteProject", null);
+], PostResolver.prototype, "deletePost", null);
 PostResolver = __decorate([
     type_graphql_1.Resolver()
 ], PostResolver);
