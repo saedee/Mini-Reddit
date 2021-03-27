@@ -1,6 +1,6 @@
-import { UsernamePasswordInput } from "./UsernamePasswordInput";
+import { usernamePasswordInput } from "./usernamePasswordInput";
 
-export const validateRegister = (options: UsernamePasswordInput) => {
+export const validateRegister = (options: usernamePasswordInput) => {
   if (!options.email.includes("@")) {
     return [
       {

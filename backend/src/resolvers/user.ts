@@ -4,7 +4,7 @@ import { User } from "../entities/User";
 import argon2 from "argon2";
 import { EntityManager } from "@mikro-orm/postgresql";
 import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
-import { UsernamePasswordInput } from "../utils/UsernamePasswordInput";
+import { usernamePasswordInput } from "../utils/usernamePasswordInput";
 import { validateRegister } from "../utils/validateRegister";
 import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
@@ -118,7 +118,7 @@ export class UserResolver {
 
   @Mutation(() => UserResponse)
   async register(
-    @Arg("options") options: UsernamePasswordInput,
+    @Arg("options") options: usernamePasswordInput,
     @Ctx() { em, req }: MyContext,
   ): Promise<UserResponse | null> {
     const errors = validateRegister(options);
@@ -204,7 +204,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async remove(
-    @Arg("options") options: UsernamePasswordInput,
+    @Arg("options") options: usernamePasswordInput,
     @Ctx() { em }: MyContext,
   ): Promise<boolean> {
     em.nativeDelete(User, { username: options.username });
