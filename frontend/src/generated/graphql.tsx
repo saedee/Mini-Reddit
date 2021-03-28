@@ -277,7 +277,7 @@ export function useLogoutMutation() {
   return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
 export const RegisterDocument = gql`
-    mutation Register($options: usernamePasswordInput!) {
+    mutation Register($options: UsernamePasswordInput!) {
   register(options: $options) {
     ...RegularUserResponse
   }

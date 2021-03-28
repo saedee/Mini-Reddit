@@ -1,6 +1,6 @@
 import { Post } from "../entities/Post";
 import { Arg, Ctx, Field, InputType, Int, Mutation, Query, Resolver } from "type-graphql";
-import { MyContext } from "../types";
+import { MyContext } from "../types/MyContext";
 
 @InputType()
 class ProjectInput {

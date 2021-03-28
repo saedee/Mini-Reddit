@@ -1,31 +1,14 @@
-import { Arg, Ctx, Field, Int, Mutation, ObjectType, Query, Resolver } from "type-graphql";
-import { MyContext } from "../types";
+import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
+import { MyContext } from "../types/MyContext";
 import { User } from "../entities/User";
 import argon2 from "argon2";
 import { EntityManager } from "@mikro-orm/postgresql";
 import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from "../constants";
-import { usernamePasswordInput } from "../utils/usernamePasswordInput";
+import { UsernamePasswordInput } from "../types/UsernamePasswordInput";
 import { validateRegister } from "../utils/validateRegister";
 import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
-
-@ObjectType()
-class UserResponse {
-  @Field(() => [FieldError], { nullable: true })
-  errors?: FieldError[];
-
-  @Field(() => User, { nullable: true })
-  user?: User;
-}
-
-@ObjectType()
-class FieldError {
-  @Field()
-  field: string;
-
-  @Field()
-  message: string;
-}
+import { UserResponse } from "../types/UserResponse";
 
 @Resolver()
 export class UserResolver {
@@ -91,7 +74,7 @@ export class UserResolver {
 
   @Mutation(() => UserResponse)
   async register(
-    @Arg("options") options: usernamePasswordInput,
+    @Arg("options") options: UsernamePasswordInput,
     @Ctx() { em, req }: MyContext,
   ): Promise<UserResponse | null> {
     const errors = validateRegister(options);
@@ -203,7 +186,7 @@ export class UserResolver {
 
   @Mutation(() => Boolean)
   async remove(
-    @Arg("options") options: usernamePasswordInput,
+    @Arg("options") options: UsernamePasswordInput,
     @Ctx() { em }: MyContext,
   ): Promise<boolean> {
     em.nativeDelete(User, { username: options.username });
