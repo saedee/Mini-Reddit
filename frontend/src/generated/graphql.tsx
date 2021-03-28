@@ -56,10 +56,10 @@ export type Mutation = {
   addPost: Post;
   updatePost?: Maybe<Post>;
   deletePost: Scalars['Boolean'];
+  login: UserResponse;
+  register: UserResponse;
   changePassword: UserResponse;
   forgotPassword: Scalars['Boolean'];
-  register: UserResponse;
-  login: UserResponse;
   remove: Scalars['Boolean'];
   logout: Scalars['Boolean'];
 };
@@ -81,14 +81,9 @@ export type MutationDeletePostArgs = {
 };
 
 
-export type MutationChangePasswordArgs = {
-  newPassword: Scalars['String'];
-  token: Scalars['String'];
-};
-
-
-export type MutationForgotPasswordArgs = {
-  email: Scalars['String'];
+export type MutationLoginArgs = {
+  password: Scalars['String'];
+  usernameOrEmail: Scalars['String'];
 };
 
 
@@ -97,9 +92,14 @@ export type MutationRegisterArgs = {
 };
 
 
-export type MutationLoginArgs = {
-  password: Scalars['String'];
-  usernameOrEmail: Scalars['String'];
+export type MutationChangePasswordArgs = {
+  newPassword: Scalars['String'];
+  token: Scalars['String'];
+};
+
+
+export type MutationForgotPasswordArgs = {
+  email: Scalars['String'];
 };
 
 
@@ -277,7 +277,7 @@ export function useLogoutMutation() {
   return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
 export const RegisterDocument = gql`
-    mutation Register($options: UsernamePasswordInput!) {
+    mutation Register($options: usernamePasswordInput!) {
   register(options: $options) {
     ...RegularUserResponse
   }
