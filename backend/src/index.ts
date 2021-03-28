@@ -2,7 +2,6 @@ import "reflect-metadata";
 import { MikroORM } from "@mikro-orm/core";
 import { __prod__, COOKIE_NAME } from "./constants";
 import { MyContext } from "./types";
-import { User } from "./entities/User";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { PostResolver } from "./resolvers/post";
@@ -16,7 +15,6 @@ import connectRedis from "connect-redis";
 
 const main = async () => {
   const orm = await MikroORM.init(microConfig);
-  await orm.em.nativeDelete(User, {});
   await orm.getMigrator().up();
 
   const app = express();

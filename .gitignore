@@ -6,7 +6,7 @@ backend/yarn-error.log
 backend/logfile
 backend/dist
 
-ssr.txt
+concept.txt
 .vscode
 .prettierrc
 .eslintrc
