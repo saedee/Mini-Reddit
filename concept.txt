@@ -6,6 +6,7 @@
 - redis (in memory datastore)
 - node.js [express] (server side development)
 - graphql (query langague)
+- nodemailer (handles email sending)
 
 == frontend ==
 - react
