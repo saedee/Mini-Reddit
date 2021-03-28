@@ -1,0 +1,62 @@
+=== technologies ===
+== backend/server ==
+- postgresql (database)
+- mikroORM/typeORM (typescript ORM)
+- apollo (graphql server) https://www.apollographql.com/docs/apollo-server/
+- redis (in memory datastore)
+- node.js [express] (server side development)
+- graphql (query langague)
+
+== frontend ==
+- react
+- typescript
+- typegraphql
+- urql (making graphql requests) https://formidable.com/open-source/urql/
+- next.js with chakra [urql has next.js integration for SSR]
+- codegen (graphql code generator) https://www.graphql-code-generator.com/
+
+
+=== concept ===
+== backend/server ==
+1) Object Relational Mapping (ORM)
+- is a technique that lets you query and manipulate data from a database using an object-oriented paradigm.
+- mikro-orm migration:create creates migration to db
+
+2) Sessions and Cookies in Redis
+- allows user to stay logged in and continue to do actions on the website
+--> req.session.userId = user.id; (storing data into session)
+--> {userId: 1} send to redis and stored in redis (redis is a key-value store. {sess:qwefsdfgdsd : {userId: 1}})
+--> express-session will set a cookie on my browser asdfasdf123dsdf
+--> cookie value is a signed version of redis key
+--> when user makes a request, cookie value sent to server
+--> cookie value will be decrypted by our secret set. (turns asdfasdf123dsdf into sess:qwefsdfgdsd)
+--> makes a request to redis with decrypted key to retrieve the data
+--> retrieves req.session = {userID: 1}
+
+3) Apollo server (graphql server with Node.js)
+- a library that helps you connect a graphql schema to a HTTP server in node
+- expose APIs for client to call on graphql
+- http://localhost:4000/graphql
+
+== frontend ==
+1) Urql
+- caching in urql is not normalized
+- graphcache allows for normalized caching https://formidable.com/open-source/urql/docs/graphcache/
+
+2) Codegen
+- generate typescript typesafe for our queries and urql hooks
+
+3) Server Side Rendering (SSR)
+me --> browse http://localhost:3000
+--> requests to next.js server
+--> requests to graphql server http://localhost:4000
+--> building the HTML
+--> sending back to browser
+
+
+=== development tips ===
+1) tsc -w creates a dist folder (convert ts code to js code)
+--> compiling js code is much faster than ts code
+2) nodemon listens to live changes and auto recompiles
+
+
