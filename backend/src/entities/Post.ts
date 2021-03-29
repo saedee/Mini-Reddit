@@ -5,11 +5,12 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Column,
+  BaseEntity,
 } from "typeorm";
 
 @ObjectType()
 @Entity()
-export class Post {
+export class Post extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number;
@@ -25,8 +26,4 @@ export class Post {
   @Field()
   @Column()
   title!: string;
-
-  @Field()
-  @Column()
-  text!: string;
 }
