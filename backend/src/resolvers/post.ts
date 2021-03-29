@@ -9,7 +9,7 @@ import { getConnection } from "typeorm";
 export class PostResolver {
   @Query(() => [Post])
   posts(
-    @Arg("limit") limit: number,
+    @Arg("limit", () => Int) limit: number,
     @Arg("cursor", () => String, { nullable: true }) cursor: string | null,
   ): Promise<Post[]> {
     const realLimit = Math.min(50, limit);
