@@ -17,9 +17,9 @@ const CreatePost: React.FC<{}> = ({}) => {
         initialValues={{ title: "", text: "" }}
         onSubmit={async (values) => {
           const { error } = await createPost({ input: values });
-          if (error.message.includes("not authenticated")) {
+          if (!error) {
+            router.push("/");
           }
-          router.push("/");
         }}
       >
         {({ isSubmitting }) => (
