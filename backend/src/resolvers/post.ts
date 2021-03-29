@@ -1,25 +1,8 @@
 import { Post } from "../entities/Post";
-import {
-  Arg,
-  Ctx,
-  Field,
-  InputType,
-  Int,
-  Mutation,
-  Query,
-  Resolver,
-  UseMiddleware,
-} from "type-graphql";
+import { Arg, Ctx, Int, Mutation, Query, Resolver, UseMiddleware } from "type-graphql";
 import { MyContext } from "../types/MyContext";
 import { isAuth } from "../middleware/isAuth";
-
-@InputType()
-class PostInput {
-  @Field()
-  title: string;
-  @Field()
-  text: string;
-}
+import { PostInput } from "../types/PostInput";
 
 @Resolver()
 export class PostResolver {
@@ -52,7 +35,6 @@ export class PostResolver {
       post.title = title;
       Post.update({ id }, { title });
     }
-
     return post;
   }
 
