@@ -8,7 +8,6 @@ import { validateRegister } from "../utils/validateRegister";
 import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
 import { UserResponse } from "../types/UserResponse";
-import { getConnection } from "typeorm";
 
 @Resolver()
 export class UserResolver {
@@ -84,19 +83,23 @@ export class UserResolver {
     const hashedPassword = await argon2.hash(options.password);
     let user;
     try {
-      const result = await getConnection()
-        .createQueryBuilder()
-        .insert()
-        .into(User)
-        .values({
-          username: options.username,
-          email: options.email,
-          password: hashedPassword,
-        })
-        .returning("*")
-        .execute();
-      console.log(user);
-      user = result.raw;
+      user = await User.create({
+        username: options.username,
+        email: options.email,
+        password: hashedPassword,
+      }).save();
+      // const result = await getConnection()
+      //   .createQueryBuilder()
+      //   .insert()
+      //   .into(User)
+      //   .values({
+      //     username: options.username,
+      //     email: options.email,
+      //     password: hashedPassword,
+      //   })
+      //   .returning("*")
+      //   .execute();
+      // user = result.raw[0];
     } catch (err) {
       if (err.code == "23505") {
         return {
@@ -114,7 +117,7 @@ export class UserResolver {
     // store user id session
     // this will set a cookie on the user
     // keep them logged in
-    req.session.userId = user.id;
+    req.session.userId = user?.id;
     return { user };
   }
   @Mutation(() => UserResponse)
