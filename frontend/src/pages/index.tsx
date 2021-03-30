@@ -3,7 +3,7 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { usePostsQuery } from "../generated/graphql";
 import { Layout } from "../components/Layout";
-import { Box, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 const Index = () => {
@@ -14,9 +14,12 @@ const Index = () => {
   });
   return (
     <Layout>
-      <NextLink href="/create-post">
-        <Link> create post</Link>
-      </NextLink>
+      <Flex align="center">
+        <Heading>Mini Reddit</Heading>
+        <NextLink href="/create-post">
+          <Link ml="auto"> create post</Link>
+        </NextLink>
+      </Flex>
       <br />
       {!data ? (
         <div> loading... </div>
