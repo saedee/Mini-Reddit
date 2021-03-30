@@ -3,15 +3,20 @@ import { withUrqlClient } from "next-urql";
 import { createUrqlClient } from "../utils/createUrqlClient";
 import { usePostsQuery } from "../generated/graphql";
 import { Layout } from "../components/Layout";
-import { Box, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Link, Stack, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 const Index = () => {
-  const [{ data }] = usePostsQuery({
+  const [{ data, fetching }] = usePostsQuery({
     variables: {
       limit: 10,
     },
   });
+
+  if (!fetching && !data) {
+    return <div> you got query failed for some reasons </div>;
+  }
+
   return (
     <Layout>
       <Flex align="center">
@@ -21,7 +26,7 @@ const Index = () => {
         </NextLink>
       </Flex>
       <br />
-      {!data ? (
+      {!data && fetching ? (
         <div> loading... </div>
       ) : (
         <Stack spacing={8}>
@@ -33,6 +38,13 @@ const Index = () => {
           ))}
         </Stack>
       )}
+      {data ? (
+        <Flex>
+          <Button m="auto" my={8}>
+            load more
+          </Button>
+        </Flex>
+      ) : null}
     </Layout>
   );
 };
