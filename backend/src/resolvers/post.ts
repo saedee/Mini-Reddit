@@ -4,7 +4,6 @@ import {
   Ctx,
   Field,
   FieldResolver,
-  Info,
   Int,
   Mutation,
   ObjectType,

@@ -1,4 +1,4 @@
-import { Arg, Ctx, Int, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
 import { MyContext } from "../types/MyContext";
 import { User } from "../entities/User";
 import argon2 from "argon2";
@@ -9,8 +9,18 @@ import { sendEmail } from "../utils/sendEmail";
 import { v4 } from "uuid";
 import { UserResponse } from "../types/UserResponse";
 
-@Resolver()
+@Resolver(User)
 export class UserResolver {
+  @FieldResolver(() => String)
+  email(@Root() user: User, @Ctx() { req }: MyContext) {
+    if (req.session.userId == user.id) {
+      // current user and its ok to show them their own sendEmail
+      return user.email;
+    }
+    // current user wants to see someone elses email
+    return "";
+  }
+
   @Query(() => [User])
   users(): Promise<User[]> {
     return User.find();
