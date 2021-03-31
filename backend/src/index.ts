@@ -13,6 +13,7 @@ import { createConnection } from "typeorm";
 import { Post } from "./entities/Post";
 import { User } from "./entities/User";
 import path from "path";
+
 const main = async () => {
   const conn = await createConnection({
     type: "postgres",
@@ -26,6 +27,8 @@ const main = async () => {
   });
 
   await conn.runMigrations();
+
+  // await Post.delete({});
 
   const app = express();
 
