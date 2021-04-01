@@ -16,7 +16,6 @@ import { MyContext } from "../types/MyContext";
 import { isAuth } from "../middleware/isAuth";
 import { PostInput } from "../types/PostInput";
 import { getConnection } from "typeorm";
-import { Updoot } from "../entities/Updoot";
 
 @ObjectType()
 class PaginatedPosts {
