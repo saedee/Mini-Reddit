@@ -1,27 +1,29 @@
 === technologies ===
 == backend/server ==
 - postgresql (database)
-- mikroORM/typeORM (typescript ORM)
+- typeORM (typescript ORM) https://typeorm.io/
 - apollo (graphql server) https://www.apollographql.com/docs/apollo-server/
-- redis (in memory datastore)
-- node.js [express] (server side development)
 - graphql (query langague)
+- node.js [express] (server side development)
+- typegraphql (framework for graphql api in node.js) https://typegraphql.com/
+- redis (in memory datastore)
 - nodemailer (handles email sending)
 
 == frontend ==
 - react
 - typescript
-- typegraphql
-- urql (making graphql requests) https://formidable.com/open-source/urql/
+- urql (graphql client) https://formidable.com/open-source/urql/
 - next.js with chakra [urql has next.js integration for SSR]
 - codegen (graphql code generator) https://www.graphql-code-generator.com/
 
-
 === concept ===
 == backend/server ==
-1) Object Relational Mapping (ORM)
-- is a technique that lets you query and manipulate data from a database using an object-oriented paradigm.
-- mikro-orm migration:create creates migration to db
+1) TypeORM vs MikroORM
+- ORM is a technique that lets you query and manipulate data from a database using an object-oriented paradigm.
+- there are db relationships such as many-many/many-one/one-many decorators
+- typeorm style slightly cleaner than mikroorm
+- @Column decorator means adding a column into the database table
+- @Field decorator means exposing to graphql
 
 2) Sessions and Cookies in Redis
 - allows user to stay logged in and continue to do actions on the website
@@ -39,13 +41,22 @@
 - expose APIs for client to call on graphql
 - http://localhost:4000/graphql
 
+4) Typegraphql
+--> typegraphql has a middleware function that runs before the resolvers
+--> middleware function can be used for global error handling
+
 == frontend ==
-1) Urql
+1) Urql (graphql client)
 - caching in urql is not normalized
 - graphcache allows for normalized caching https://formidable.com/open-source/urql/docs/graphcache/
+--> can wrap each independent page and decide ssr
+--> urql can handle global error as well using errorExchange
 
-2) Codegen
-- generate typescript typesafe for our queries and urql hooks
+2) Codegen (graphql code generator)
+- generate typescript typesafe for our queries and urql hooks from graphql code
+--> generated graphql.tsx file contains graphql hooks for use
+--> mutation hooks: [, 2nd_param*]
+--> query hooks: [{data,fetching}]
 
 3) Server Side Rendering (SSR)
 me --> browse http://localhost:3000
@@ -54,10 +65,10 @@ me --> browse http://localhost:3000
 --> building the HTML
 --> sending back to browser
 
-
 === development tips ===
 1) tsc -w creates a dist folder (convert ts code to js code)
 --> compiling js code is much faster than ts code
 2) nodemon listens to live changes and auto recompiles
-
-
+3) graphql-codegen --config codegen.yml (generates graphql.tsx from graphql code)
+4) create a me query to check whether a user is logged in, and a custom hook to check if rauthenticated
+5) mockaroo to create mock data
