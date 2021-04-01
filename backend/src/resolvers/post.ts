@@ -16,6 +16,7 @@ import { MyContext } from "../types/MyContext";
 import { isAuth } from "../middleware/isAuth";
 import { PostInput } from "../types/PostInput";
 import { getConnection } from "typeorm";
+import { Updoot } from "../entities/Updoot";
 
 @ObjectType()
 class PaginatedPosts {
@@ -44,18 +45,31 @@ export class PostResolver {
     const realValue = isUpdoot ? 1 : -1;
     const { userId } = req.session;
 
-    await getConnection().query(
-      `
-    START TRANSACTION;
-    insert into updoot("userId", "postId", value)
-    values(${userId}, ${postId}, ${realValue});
-    update post
-    set points = points + ${realValue}
-    where id = ${postId};
-    COMMIT;
-    `,
-    );
+    const updoot = await Updoot.findOne({ where: { postId, userId } });
+    if (updoot && updoot.value !== realValue) {
+      // the user has voted on the post before and they are changing their vote
+      await getConnection().transaction(async (tm) => {
+        await tm.query(`   update updoot
+          set value = ${realValue}
+          where "postId" = ${postId} and "userId" = ${userId}`);
 
+        await tm.query(`   update post
+          set points = points + ${2 * realValue}
+          where id = ${postId}`);
+      });
+    } else if (!updoot) {
+      // has never voted on the post before
+      await getConnection().transaction(async (tm) => {
+        await tm.query(`
+          insert into updoot("userId", "postId", value)
+          values(${userId}, ${postId}, ${realValue})
+        `);
+
+        await tm.query(`   update post
+          set points = points + ${realValue}
+          where id = ${postId}`);
+      });
+    }
     return true;
   }
 
