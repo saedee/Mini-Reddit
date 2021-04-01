@@ -6,12 +6,13 @@ import {
   MeDocument,
   MeQuery,
   RegisterMutation,
+  VoteMutationVariables,
 } from "../generated/graphql";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import { pipe, tap } from "wonka";
 import { Exchange } from "urql";
 import Router from "next/router";
-import { stringifyVariables } from "@urql/core";
+import { stringifyVariables, gql } from "@urql/core";
 
 // allows for global error handling
 const errorExchange: Exchange = ({ forward }) => (ops$) => {
@@ -72,6 +73,29 @@ export const createUrqlClient = (ssrExchange: any) => ({
       },
       updates: {
         Mutation: {
+          vote: (_result, args, cache, __) => {
+            const { postId, value } = args as VoteMutationVariables;
+            const data = cache.readFragment(
+              gql`
+                fragment _ on Post {
+                  id
+                  points
+                }
+              `,
+              { id: postId },
+            );
+            if (data) {
+              const newPoints = data.points + value;
+              cache.writeFragment(
+                gql`
+                  fragment _ on Post {
+                    points
+                  }
+                `,
+                { id: postId, points: newPoints },
+              );
+            }
+          },
           createPost: (_result, _, cache, __) => {
             const allFields = cache.inspectFields("Query");
             const fieldInfos = allFields.filter((info) => info.fieldName === "posts");
