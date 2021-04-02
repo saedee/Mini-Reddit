@@ -1,6 +1,6 @@
 import { MigrationInterface, QueryRunner } from "typeorm";
 
-export class MockData1617200506577 implements MigrationInterface {
+export class FakeData1617329554616 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`insert into post (title, text, "creatorId", "createdAt") values ('After School Midnighters (Hôkago middonaitâzu)', 'In hac habitasse platea dictumst. Etiam faucibus cursus urna. Ut tellus.
 
