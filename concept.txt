@@ -72,3 +72,4 @@ me --> browse http://localhost:3000
 3) graphql-codegen --config codegen.yml (generates graphql.tsx from graphql code)
 4) create a me query to check whether a user is logged in, and a custom hook to check if rauthenticated
 5) mockaroo to create mock data
+6) pagination can be done from limit and cursor
