@@ -1,6 +1,5 @@
-import { Button, Flex, Heading, Link } from "@chakra-ui/react";
+import { Button, Flex } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import NextLink from "next/link";
 import React, { useState } from "react";
 import { Layout } from "../components/Layout";
 import { PostCard } from "../components/PostCard";
@@ -19,13 +18,6 @@ const Index = () => {
 
   return (
     <Layout>
-      <Flex align="center">
-        <Heading>Mini Reddit</Heading>
-        <NextLink href="/create-post">
-          <Link ml="auto"> create post</Link>
-        </NextLink>
-      </Flex>
-      <br />
       {!data && fetching ? <div> loading... </div> : <PostCard data={data} />}
       {data && data.posts.hasMore ? (
         <Flex>
