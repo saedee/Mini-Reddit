@@ -65,6 +65,14 @@ me --> browse http://localhost:3000
 --> building the HTML
 --> sending back to browser
 
+ssr vs client side
+ssr: browser -> next.js -> graphql api
+client: browser -> graphql api
+
+when page first loads, does a ssr request, so cookie not sent to graphql api
+--> we need to then forward the cookie from our next.js to our graphql api
+
+
 === development tips ===
 1) tsc -w creates a dist folder (convert ts code to js code)
 --> compiling js code is much faster than ts code
