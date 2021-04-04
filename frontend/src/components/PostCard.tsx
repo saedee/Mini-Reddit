@@ -1,9 +1,9 @@
+import { DeleteIcon } from "@chakra-ui/icons";
 import { Box, Flex, Heading, IconButton, Link, Stack, Text } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 import { PostsQuery, useDeletePostMutation } from "../generated/graphql";
 import { UpdootSection } from "./UpdootSection";
-import NextLink from "next/link";
-import { DeleteIcon } from "@chakra-ui/icons";
 
 interface PostCardProps {
   data: PostsQuery;
@@ -28,6 +28,7 @@ export const PostCard: React.FC<PostCardProps> = ({ data }) => {
                 <Text flex={1} mt={4}>
                   {p.textSnippet}
                 </Text>
+
                 <IconButton
                   colorScheme="red"
                   icon={<DeleteIcon />}
