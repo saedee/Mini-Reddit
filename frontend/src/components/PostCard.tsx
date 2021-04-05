@@ -1,4 +1,4 @@
-import { DeleteIcon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Box, Flex, Heading, IconButton, Link, Stack, Text } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React from "react";
@@ -28,13 +28,16 @@ export const PostCard: React.FC<PostCardProps> = ({ data }) => {
                 <Text flex={1} mt={4}>
                   {p.textSnippet}
                 </Text>
-
-                <IconButton
-                  colorScheme="red"
-                  icon={<DeleteIcon />}
-                  aria-label="Delete Post"
-                  onClick={() => deletePost({ id: p.id })}
-                />
+                <Box ml="auto">
+                  <NextLink href="/post/edit/[id]" as={`/post/edit/${p.id}`}>
+                    <IconButton mr={4} icon={<EditIcon />} aria-label="Edit Post" />
+                  </NextLink>
+                  <IconButton
+                    icon={<DeleteIcon />}
+                    aria-label="Delete Post"
+                    onClick={() => deletePost({ id: p.id })}
+                  />
+                </Box>
               </Flex>
             </Box>
           </Flex>
