@@ -78,6 +78,22 @@ when page first loads, does a ssr request, so cookie not sent to graphql api
 --> compiling js code is much faster than ts code
 2) nodemon listens to live changes and auto recompiles
 3) graphql-codegen --config codegen.yml (generates graphql.tsx from graphql code)
-4) create a me query to check whether a user is logged in, and a custom hook to check if rauthenticated
+4) create a me query to check whether a user is logged in, and a custom hook to check if authenticated
 5) mockaroo to create mock data
 6) pagination can be done from limit and cursor
+
+
+
+
+DataLoader
+--> Initially, when querying for table with a need to join, (creatorId -post+user- and voteStatus -post+user-),
+you can write a big query to handle everything.
+- bad thing about this is sometimes you query for the information that you do not need, eg creatorId
+
+--> can use a field resolver to handle above disadvantage, where you will only make the query when you ask for it
+- however, normal field resolver query will result in the N+1 problem, where querying can be slow and heavy (querying 1 time for 1 post, 100 times for 100 posts)
+
+--> hence, can use dataloader to solve the N+1 problem, where dataloader will basically batch the entire queries into 1 queries
+--> now you can have 1 query to acquire information whenever you need it
+
+
