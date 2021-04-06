@@ -1,3 +1,4 @@
+import "dotenv-safe/config";
 import { Arg, Ctx, FieldResolver, Int, Mutation, Query, Resolver, Root } from "type-graphql";
 import { MyContext } from "../types/MyContext";
 import { User } from "../entities/User";
@@ -201,7 +202,7 @@ export class UserResolver {
 
     await sendEmail(
       email,
-      `<a href = "http://localhost:3000/change-password/${token}"> reset password </a>`,
+      `<a href = "${process.env.CORS_ORIGIN}/change-password/${token}"> reset password </a>`,
     );
     return true;
   }
