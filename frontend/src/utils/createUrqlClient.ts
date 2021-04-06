@@ -1,4 +1,4 @@
-import { cacheExchange, Resolver } from "@urql/exchange-graphcache";
+import { cacheExchange, Resolver, Cache } from "@urql/exchange-graphcache";
 import { dedupExchange, fetchExchange } from "urql";
 import {
   DeletePostMutationVariables,
@@ -58,6 +58,14 @@ const cursorPagination = (): Resolver => {
     return { __typename: "PaginatedPosts", hasMore, posts: results };
   };
 };
+
+function invalidateAllPosts(cache: Cache) {
+  const allFields = cache.inspectFields("Query");
+  const fieldInfos = allFields.filter((info) => info.fieldName === "posts");
+  fieldInfos.forEach((fi) => {
+    cache.invalidate("Query", "posts", fi.arguments || {});
+  });
+}
 
 export const createUrqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = "";
@@ -122,11 +130,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
               }
             },
             createPost: (_result, _, cache, __) => {
-              const allFields = cache.inspectFields("Query");
-              const fieldInfos = allFields.filter((info) => info.fieldName === "posts");
-              fieldInfos.forEach((fi) => {
-                cache.invalidate("Query", "posts", fi.arguments || {});
-              });
+              invalidateAllPosts(cache);
             },
             login: (_result, _, cache, __) => {
               betterUpdateQuery<LoginMutation, MeQuery>(
@@ -143,6 +147,7 @@ export const createUrqlClient = (ssrExchange: any, ctx: any) => {
                   }
                 },
               );
+              invalidateAllPosts(cache);
             },
             register: (_result, _, cache, __) => {
               betterUpdateQuery<RegisterMutation, MeQuery>(
