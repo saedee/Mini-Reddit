@@ -72,7 +72,6 @@ client: browser -> graphql api
 when page first loads, does a ssr request, so cookie not sent to graphql api
 --> we need to then forward the cookie from our next.js to our graphql api
 
-
 === development tips ===
 1) tsc -w creates a dist folder (convert ts code to js code)
 --> compiling js code is much faster than ts code
@@ -82,8 +81,7 @@ when page first loads, does a ssr request, so cookie not sent to graphql api
 5) mockaroo to create mock data
 6) pagination can be done from limit and cursor
 
-
-
+=== development flow ===
 
 DataLoader
 --> Initially, when querying for table with a need to join, (creatorId -post+user- and voteStatus -post+user-),

@@ -1,10 +1,12 @@
-frontend/node_modules
-frontend/.next
 
 backend/node_modules
 backend/yarn-error.log
 backend/logfile
 backend/dist
+backend/.env
+
+frontend/node_modules
+frontend/.next
 
 .vscode
 .prettierrc
