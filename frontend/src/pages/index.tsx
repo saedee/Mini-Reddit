@@ -8,12 +8,17 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [variables, setVariables] = useState({ limit: 15, cursor: null as null | string });
-  const [{ data, fetching }] = usePostsQuery({
+  const [{ data, error, fetching }] = usePostsQuery({
     variables,
   });
 
   if (!fetching && !data) {
-    return <div> you got query failed for some reasons </div>;
+    return (
+      <div>
+        <div> you got query failed for some reasons </div>
+        <div> {error?.message} </div>
+      </div>
+    );
   }
 
   return (
