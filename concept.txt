@@ -95,3 +95,7 @@ you can write a big query to handle everything.
 --> now you can have 1 query to acquire information whenever you need it
 
 
+deployment
+porkbun
+digital ocean dokku
+vercel
