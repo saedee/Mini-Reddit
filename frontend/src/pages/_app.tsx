@@ -16,13 +16,13 @@ function MyApp({ Component, pageProps }) {
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
         /> */}
-        {/* <link rel="manifest" href="/manifest.json" />
+        {/* <link rel="manifest" href="/manifest.json" /> */}
         <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png" />
         <link rel="manifest" href="icons/site.webmanifest" />
-        <link rel="shortcut icon" href="/favicon.png" /> */}
-        {/* <meta name="theme-color" content="#3B69CE" /> */}
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <meta name="theme-color" content="#3B69CE" />
       </Head>
       <ColorModeProvider
         options={{
