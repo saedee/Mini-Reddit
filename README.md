@@ -1,4 +1,4 @@
-# [Mini-Reddit!](codedevr.com)
+# [Mini-Reddit!](https://www.codedevr.com)
 
 ### this is a fullstack project that I built in an attempt to learn and familiarise myself with the tech stack for a fullstack web. this project is followed from ben awad's fullstack react with graphql tutorial.
 
