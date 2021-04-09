@@ -8,11 +8,11 @@ import { createUrqlClient } from "../utils/createUrqlClient";
 
 const Index = () => {
   const [variables, setVariables] = useState({ limit: 15, cursor: null as null | string });
-  const [{ data, error, fetching }] = usePostsQuery({
+  const { data, error, loading } = usePostsQuery({
     variables,
   });
 
-  if (!fetching && !data) {
+  if (!loading && !data) {
     return (
       <div>
         <div> you got query failed for some reasons </div>
@@ -23,7 +23,7 @@ const Index = () => {
 
   return (
     <Layout>
-      {!data && fetching ? <div> loading... </div> : <PostCard data={data} />}
+      {!data && loading ? <div> loading... </div> : <PostCard data={data} />}
       {data && data.posts.hasMore ? (
         <Flex>
           <Button
@@ -33,7 +33,7 @@ const Index = () => {
                 cursor: data.posts.posts[data.posts.posts.length - 1].createdAt,
               });
             }}
-            isLoading={fetching}
+            isLoading={loading}
             m="auto"
             my={8}
           >
@@ -45,4 +45,4 @@ const Index = () => {
   );
 };
 
-export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
+export default Index;
