@@ -5,28 +5,6 @@ import Head from "next/head";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { PaginatedPosts } from "../generated/graphql";
 
-const client = new ApolloClient({
-  uri: process.env.NEXT_PUBLIC_API_URL as string,
-  credentials: "include",
-  cache: new InMemoryCache({
-    typePolicies: {
-      Query: {
-        fields: {
-          posts: {
-            keyArgs: [],
-            merge(existing: PaginatedPosts | undefined, incoming: PaginatedPosts): PaginatedPosts {
-              return {
-                ...incoming,
-                posts: [...(existing?.posts || []), ...incoming.posts],
-              };
-            },
-          },
-        },
-      },
-    },
-  }),
-});
-
 function MyApp({ Component, pageProps }) {
   return (
     <>
@@ -43,17 +21,16 @@ function MyApp({ Component, pageProps }) {
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="theme-color" content="#3B69CE" />
       </Head>
-      <ApolloProvider client={client}>
-        <ChakraProvider resetCSS theme={theme}>
-          <ColorModeProvider
-            options={{
-              useSystemColorMode: true,
-            }}
-          >
-            <Component {...pageProps} />
-          </ColorModeProvider>
-        </ChakraProvider>
-      </ApolloProvider>
+      <ChakraProvider resetCSS theme={theme}>
+        <ColorModeProvider
+          options={{
+            useSystemColorMode: true,
+          }}
+        >
+          <Component {...pageProps} />
+        </ColorModeProvider>
+      </ChakraProvider>
+      ={" "}
     </>
   );
 }
