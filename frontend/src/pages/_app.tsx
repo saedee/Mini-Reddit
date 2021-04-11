@@ -1,9 +1,7 @@
 import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
+import Head from "next/head";
 import React from "react";
 import theme from "../theme";
-import Head from "next/head";
-import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
-import { PaginatedPosts } from "../generated/graphql";
 
 function MyApp({ Component, pageProps }) {
   return (
