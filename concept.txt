@@ -91,6 +91,9 @@ when page first loads, does a ssr request, so cookie not sent to graphql api
 6) pagination can be done from limit and cursor
 
 === development flow ===
+- backend server basics
+- frontend fetch
+
 
 === deployment flow ===
 - docker
